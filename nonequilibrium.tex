@@ -1,0 +1,48 @@
+\documentclass{ltjsarticle}
+
+
+%ソースコード
+\usepackage{listings}
+\lstset{
+  numbers=left,
+  basicstyle=\ttfamily,
+}
+%装飾
+\usepackage{color}
+% 数式
+\usepackage{amsmath,amssymb}
+\usepackage{bm}
+\usepackage{physics}
+\usepackage{comment}
+\usepackage{autobreak}
+\usepackage{mathtools}
+\usepackage{mathcommand}
+\mathtoolsset{showonlyrefs=true}
+% 数式処理
+\usepackage{luacas}
+% 画像
+\usepackage{graphicx}
+\usepackage{here}
+\usepackage{tikz}
+% 引用
+\usepackage{hyperref}
+
+\title{非平衡統計力学}
+\author{Toroid153846}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+
+  \begin{align}
+    \dot{\sigma}_{ex}=&\sum_{x\neq x'}\sum_\nu R_\nu (x'|x;t)P(x,t)\log\frac{R_\nu (x'|x;t)P(x,t)}{\tilde{R}_\nu (x|x';t)P(x',t)}\\
+    \dot{\sigma}_{ex}\left[ \bm{x}_\tau,\bm{\lambda}_\tau \right] =&\sum^K_{k=1}\log\frac{R_{\nu_k} (x_k|x_{k-1};t)P(x_\tau,0)}{\tilde{R}_{\nu_k} (x_{k-1}|x_k;t)P(x_0,\tau)}\\
+  \end{align}
+  と定義して
+  \begin{align}
+    \int dt \dot{\sigma}_{ex}=\int D\bm{x}_\tau \dot{\sigma}_{ex}\left[ \bm{x}_\tau,\bm{\lambda}_\tau \right] P\left[ \bm{x}_\tau|\bm{\lambda}_\tau \right]\\
+  \end{align}
+が成り立つことを示してください。
+
+\end{document}
