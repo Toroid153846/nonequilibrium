@@ -35,14 +35,128 @@
 \maketitle
 
 
-  \begin{align}
-    \dot{\sigma}_{ex}=&\sum_{x\neq x'}\sum_\nu R_\nu (x'|x;t)P(x,t)\log\frac{R_\nu (x'|x;t)P(x,t)}{\tilde{R}_\nu (x|x';t)P(x',t)}\\
-    \dot{\sigma}_{ex}\left[ \bm{x}_\tau,\bm{\lambda}_\tau \right] =&\sum^K_{k=1}\log\frac{R_{\nu_k} (x_k|x_{k-1};t)P(x_\tau,0)}{\tilde{R}_{\nu_k} (x_{k-1}|x_k;t)P(x_0,\tau)}\\
-  \end{align}
-  と定義して
-  \begin{align}
-    \int dt \dot{\sigma}_{ex}=\int D\bm{x}_\tau \dot{\sigma}_{ex}\left[ \bm{x}_\tau,\bm{\lambda}_\tau \right] P\left[ \bm{x}_\tau|\bm{\lambda}_\tau \right]\\
-  \end{align}
-が成り立つことを示してください。
+%   \begin{align}
+%     \dot{\sigma}_{ex}=&\sum_{x\neq x'}\sum_\nu R_\nu (x'|x;t)P(x,t)\log\frac{R_\nu (x'|x;t)P(x,t)}{\tilde{R}_\nu (x|x';t)P(x',t)}\\
+%     \dot{\sigma}_{ex}\left[ \bm{x}_\tau,\bm{\lambda}_\tau \right] =&\sum^K_{k=1}\log\frac{R_{\nu_k} (x_k|x_{k-1};t)P(x_\tau,0)}{\tilde{R}_{\nu_k} (x_{k-1}|x_k;t)P(x_0,\tau)}\\
+%   \end{align}
+%   と定義して
+%   \begin{align}
+%     \int dt \dot{\sigma}_{ex}=\int D\bm{x}_\tau \dot{\sigma}_{ex}\left[ \bm{x}_\tau,\bm{\lambda}_\tau \right] P\left[ \bm{x}_\tau|\bm{\lambda}_\tau \right]\\
+%   \end{align}
+% が成り立つことを示してください。\\
+\section{マルコフジャンプ過程}
+\subsection{系の設定}
+着目系とその系と相互作用する熱浴$\nu=1,2,\dots,n$がある。\\
+マルコフジャンプ過程での着目系の時間$0$から$\tau$までの時間発展を考える。\\
+下のように時間$t_k$($k=1,\dots,K$であり$0<t_1<t_2<\cdots<t_K<\tau$を満たす)において熱浴$\nu_{k}$による着目系の状態の遷移($x_{k-1}\to x_k$)が$K$回起こった経路を$\bm{x}_\tau=\lbrace x(t)\rbrace_{t=0}^\tau$とする。\\
+\begin{tikzpicture}
+  %\draw (0,0) grid (10,5);
+  \draw[->,thick] (0,0) -- (0,5) node[above] {$x$};
+  \draw[->,thick] (0,0) -- (10.5,0) node[right] {$t$};
+  \draw[thick] (3,1) -- (0,1) node[left] {$x_1$};
+  \draw[dashed] (3,4) -- (0,4) node[left] {$x_2$};
+  \draw[thick] (3,4) -- (5,4);
+  \draw[dashed] (5,2) -- (0,2) node[left] {$x_3$};
+  \draw[thick] (5,2) -- (6,2);
+  \draw[dashed] (9,3) -- (0,3) node[left] {$x_K$};
+  \draw[thick] (10,3) -- (9,3);
+  \draw[dashed] (10,3) -- (10,0) node[below] {$\tau$};
+  \draw[dashed] (0,1) -- (0,0) node[below] {$0$};
+  \draw[dashed] (3,4) -- (3,0) node[below] {$t_1$};
+  \draw[dashed] (5,4) -- (5,0) node[below] {$t_2$};
+  \draw[dashed] (6,0) -- (7,0) node[below] {$\cdots$};
+  \draw[dashed] (9,5) -- (9,0) node[below] {$t_K$};
+\end{tikzpicture}
+\subsection{いくつかの物理量の定義}
+時刻$t$において状態$x$にある確率を$P(x,t)$とする。\\
+最初に状態$x$にあったときに$x'$に時間$t$から$t+\dd{t}$の間に遷移する条件付き確率を$R_\nu(x'|x;t)\dd{t}$とする。\\
+$x$から$x'$へ流れる全体における確率は$\left( R(x'\mid x;t)P(x,t)-R(x\mid x';t)P(x',t) \right)\dd{t} $と表され、確率流を
+\begin{align}
+  J(x'\mid x;t):=R(x'\mid x;t)P(x,t)-R(x\mid x';t)P(x',t)
+\end{align}
+と定義する。\\
+\subsection{「流れ」の物理量に関して}
+2つの状態$x$と$x'$と熱浴$\nu$において定義される「流れ」の物理量$D^\nu_{x',x}$について\\
+\begin{align}
+  D^\nu_{x',x}=-D^\nu_{x,x'}
+\end{align}
+のような反対称性を満たす。\\
+ここで、経路$\bm{x}_\tau$においてその物理量$D$による経路の関数を次のように定義する。
+\begin{align}
+  \hat{\mathcal{J}}_D[\bm{x}_\tau,\bm{\lambda}_\tau]=\sum^K_{k=1}D^{\nu_k}_{x_k,x_{k-1}}\\
+\end{align}
+定義からわかる通り実際には経路$\bm{x}_\tau$には状態の遷移($x_{k-1}\to x_k$)の原因である熱浴$\nu_k$の情報が含まれている。\\
+ここで、この経路の関数を時間$t$の関数として表すと
+\begin{align}
+  \hat{\mathcal{J}}_D[\bm{x}_\tau,\bm{\lambda}_\tau](t)=\sum_{\lbrace k|t_k \le t\rbrace}D^{\nu_k}_{x_k,x_{k-1}}\\
+\end{align}
+したがって、
+\begin{align}
+  \hat{\dot{\mathcal{J}}}_D[\bm{x}_\tau,\bm{\lambda}_\tau](t)=\sum_{k=1}^K D^{\nu_k}_{x_{k},x_{k-1}}\delta(t-t_k)\label{eq:dotJ}
+\end{align}
+として時間微分を定義できる。\\
+\eqref{eq:dotJ}式を用いて、流れの積分$\hat{\mathcal{J}}_D$の時間微分の経路積分した値$J_D(t)$を求めてみる。\\
+まず経路積分と確率の定義から(経路積分の定義はゆらぎの熱力学 齊藤 圭司から)\\
+\begin{align}
+  \int \mathcal{D}\bm{x}_\tau=\sum_{K=0}^{\infty}\sum_{\lbrace x_k\rbrace_{k=0}^K}\sum_{\lbrace\nu_k\rbrace_{k=1}^K}\int_{0<t_1<\cdots<t_K<\tau}\dd{t_1}\cdots \dd{t_K}\\
+  P[\bm{x}_\tau,\bm{\lambda}_\tau]=P(x_0,0)\exp\left(-\int_0^\tau dt\gamma\left(x(t),t\right)\right)\prod_{k=1}^K R_{\nu_k}\left(x_k\mid x_{k-1};t_k\right)
+\end{align}
+これを用いて、
+\begin{align}
+  J_D(t)=&\ev*{\hat{\dot{\mathcal{J}}}_D(t)}\\
+  =&\int \mathcal{D}\bm{x}_\tau \hat{\dot{\mathcal{J}}}_D[\bm{x}_\tau,\bm{\lambda}_\tau](t)P[\bm{x}_\tau|\bm{\lambda}_\tau]\\
+  =&\sum_{K=0}^{\infty}\sum_{\lbrace x_k\rbrace_{k=0}^K}\sum_{\lbrace\nu_k\rbrace_{k=1}^K}\int_{0<t_1<\cdots<t_K<\tau}\dd{t_1}\cdots \dd{t_K}\sum_{k'=1}^K D^{\nu_{k'}}_{x_{k'},x_{k'-1}}\delta(t-t_{k'})\\
+  \times&P(x_0,0)\exp\left(-\int_0^\tau dt\gamma\left(x(t),t\right)\right)\prod_{k=1}^K R_{\nu_k}\left(x_k\mid x_{k-1};t_k\right)\\
+  =&\sum_{K=0}^{\infty}\sum_{k'=1}^K\sum_{\lbrace x_k\rbrace_{k=0}^K}\sum_{\lbrace\nu_k\rbrace_{k=1}^K}\int_{0<t_1<\cdots<t_{k'-1}<t<t_{k'+1}<\cdots<t_K<\tau}\dd{t_1}\cdots\dd{t_{k'-1}}\dd{t_{k'+1}}\cdots \dd{t_K} D^{\nu_{k'}}_{x_{k'},x_{k'-1}}\\
+  \times&P(x_0,0)\exp\left(-\int_0^\tau dt\gamma\left(x(t),t\right)\right)\prod_{1\le k\le K,k(\neq k')} R_{\nu_{k}}\left(x_{k}\mid x_{k-1};t_k\right)R_{\nu_{k'}}\left(x_{k'}\mid x_{k'-1};t\right)\\
+  =&\sum_{K=0}^{\infty}\sum_{k'=1}^K\sum_{\lbrace x_k\rbrace_{k=0}^{k'}}\sum_{\lbrace\nu_k\rbrace_{k=1}^{k'}}\int_{0<t_1<\cdots<t_{k'-1}<t}\dd{t_1}\cdots\dd{t_{k'-1}}D^{\nu_{k'}}_{x_{k'},x_{k'-1}} \\
+  \times&P(x_0,0)\exp\left(-\int_0^t dt\gamma\left(x(t),t\right)\right)\prod_{k=1}^{k'-1} R_{\nu_k}\left(x_k\mid x_{k-1};t_k\right)R_{\nu_{k'}}\left(x_{k'}\mid x_{k'-1};t\right)\\
+  \times&\sum_{\lbrace x_k\rbrace_{k=k'+1}^{K}}\sum_{\lbrace\nu_k\rbrace_{k=k'+1}^{K}}\int_{t<t_{k'+1}<\cdots<t_K<\tau}\dd{t_{k'+1}}\cdots \dd{t_K}\\
+  \times&\exp\left(-\int_t^\tau dt\gamma\left(x(t),t\right)\right)\prod_{k=k'+1}^K R_{\nu_k}\left(x_k\mid x_{k-1};t_k\right)\\
+  =&\sum_{K=0}^{\infty}\sum_{k'=1}^K\sum_{\lbrace x_k\rbrace_{k=0}^{k'}}\sum_{\lbrace\nu_k\rbrace_{k=1}^{k'}}\int_{0<t_1<\cdots<t_{k'-1}<t}\dd{t_1}\cdots\dd{t_{k'-1}}D^{\nu_{k'}}_{x_{k'},x_{k'-1}} \\
+  \times&P(x_0,0)\exp\left(-\int_0^t dt\gamma\left(x(t),t\right)\right)\prod_{k=1}^{k'-1} R_{\nu_k}\left(x_k\mid x_{k-1};t_k\right)R_{\nu_{k'}}\left(x_{k'}\mid x_{k'-1};t\right)\\
+  =&\sum_{K=0}^{\infty}\sum_{k'=1}^K\sum_{\lbrace x_k\rbrace_{k=0}^{k'}}\sum_{\lbrace\nu_k\rbrace_{k=1}^{k'}}\int_{0<t_1<\cdots<t_{k'-1}<t}\dd{t_1}\cdots\dd{t_{k'-1}} \\
+  \times&P(x_0,0)\exp\left(-\int_0^t dt\gamma\left(x(t),t\right)\right)\prod_{k=1}^{k'-1} R_{\nu_k}\left(x_k\mid x_{k-1};t_k\right)\\
+  \times&D^{\nu_{k'}}_{x_{k'},x_{k'-1}}R_{\nu_{k'}}\left(x_{k'}\mid x_{k'-1};t\right)\\
+  =&\sum_{x}P(x,t)\sum_{\nu,x'(\neq x)}D^{\nu}_{x',x}R_{\nu}\left(x'\mid x;t\right)\\
+  =&\sum_{\nu,x'\neq x}R_{\nu}\left(x'\mid x;t\right)P(x,t)D^{\nu}_{x',x}
+\end{align}
+この式の計算に関して、上から2行目から3,4行目は定義を代入し、3,4行目から5,6行目は$t_{k'}$によるデルタ関数の積分を行って$t_k$と$t$が入れ替え、5,6行目から7,8,9,10行目は定数である$t$を用いて積分区間を分け、7,8,9,10行目から11,12行目では9,10行目が$0$から$\tau$の積分経路を$t$から$\tau$までで切り取った経路について$1$を積分しているので初期状態である$x_k$がどんな値を取っても$1$となるため9,10行目に相当する部分が消えている。13,14,15行目から16行目は13,14行目が時刻$t$において状態$x_{k'-1}$を取るような確率であるためこのような結果となる。\\
+これは確かに文献に書いてあった通りの表式である。この$J_D(t)$に関して「流れ」の物理量の具体例を見てみる。
+\subsection{「流れ」の物理量の具体例}
+1つ目\\
+特定の2つの状態$x_0,x'_0(x_0\neq x'_0)$として、$D^{\nu}_{x'_0,x_0}=-D^{\nu}_{x_0,x'_0}=1$であり、他は$D^{\nu}_{x,x'}=0$であるとする。\\
+このとき、$J_D(t)$は次のように表される。
+\begin{align}
+  J_D(t)=&\sum_{\nu,x'\neq x}R_{\nu}\left(x'\mid x;t\right)P(x,t)D^{\nu}_{x',x}\\
+  =&\sum_\nu\left( R_{\nu}\left(x'_0\mid x_0;t\right)P(x_0,t)-R_{\nu}\left(x_0\mid x'_0;t\right)P(x'_0,t) \right)
+\end{align}
+これは、$x_0$から$x'_0$への確率の流れを表している。\\
+2つ目\\
+状態$x$に対して定義されるある物理量$A_x$に対して,$D^\nu_{x',x}=A_{x'}-A_x$と定義すると反対称性を満たす。
+このとき、$J_D(t)$は次のように表される。
+\begin{align}
+  J_D(t)=&\sum_{\nu,x'\neq x}R_{\nu}\left(x'\mid x;t\right)P(x,t)D^{\nu}_{x',x}\\
+  =&\sum_{\nu,x'\neq x}R_{\nu}\left(x'\mid x;t\right)P(x,t)\left( A_{x'}-A_x \right) \\
+  =&\sum_{\nu,x'\neq x}R_{\nu}\left(x'\mid x;t\right)P(x,t)A_{x'}-\sum_{\nu,x'\neq x}R_{\nu}\left(x'\mid x;t\right)P(x,t)A_x \\
+  =&\sum_{\nu,x'\neq x}R_{\nu}\left(x'\mid x;t\right)P(x,t)A_{x'}-\sum_{\nu,x\neq x'}R_{\nu}\left(x\mid x';t\right)P(x',t)A_{x'} \\
+  =&\sum_{\nu,x'\neq x}\left( R_{\nu}\left(x'\mid x;t\right)P(x,t)- R_{\nu}\left(x\mid x';t\right)P(x',t)\right) A_{x'}\\
+  =&\sum_{x'}\sum_{\nu,x(\neq x')}\left( R_{\nu}\left(x'\mid x;t\right)P(x,t)- R_{\nu}\left(x\mid x';t\right)P(x',t)\right) A_{x'}\\
+  =&\sum_{x'}\pdv{P(x',t)}{t}A_{x'}\\
+  =&\dv{t}\left( \sum_{x'}P(x',t)A_{x'} \right) \\
+  =&\dv{A(t)}{t}
+\end{align}
+この式の上から6行目から7行目はマスター方程式を用いている。また、$A(t)$は物理量$A_x$の期待値とした。\\
+
+\subsection{熱力学不定性関係}
+熱力学不定性関係の主張は次のように表される。\\
+確率分布$P(x,t)$と遷移確率密度$R(x',x;t)$は時間に依存しないとする。(熱平衡状態とは限らない、定常状態である)
+\begin{align}
+  \sigma\ge 2\frac{\ev*{\hat{\mathcal{J}}_D}^2}{\ev*{\Delta\hat{\mathcal{J}}_D^2}}
+\end{align}
+時間に依存する一般の場合については、操作プロトコル$\bm{\lambda}=\bm{\lambda}(vt)$として
+\begin{align}
+  \sigma\ge 2\frac{(\tau J_D(\tau)-v\pdv{v}\ev*{\hat{\mathcal{J}}_D})^2}{\ev*{\Delta\hat{\mathcal{J}}_D^2}}
+\end{align}
 
 \end{document}
