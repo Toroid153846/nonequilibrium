@@ -97,7 +97,7 @@ $x$から$x'$へ流れる全体における確率は$\left( R(x'\mid x;t)P(x,t)-
 \end{align}
 として時間微分を定義できる。\\
 \eqref{eq:dotJ}式を用いて、流れの積分$\hat{\mathcal{J}}_D$の時間微分の経路積分した値$J_D(t)$を求めてみる。\\
-まず経路積分と確率の定義から(経路積分の定義はゆらぎの熱力学 齊藤 圭司から)\\
+まず経路積分と確率の定義から(経路積分の定義はゆらぐ系の熱力学 齊藤 圭司から)\\
 \begin{align}
   \int \mathcal{D}\bm{x}_\tau=\sum_{K=0}^{\infty}\sum_{\lbrace x_k\rbrace_{k=0}^K}\sum_{\lbrace\nu_k\rbrace_{k=1}^K}\int_{0<t_1<\cdots<t_K<\tau}\dd{t_1}\cdots \dd{t_K}\\
   P[\bm{x}_\tau,\bm{\lambda}_\tau]=P(x_0,0)\exp\left(-\int_0^\tau dt\gamma\left(x(t),t\right)\right)\prod_{k=1}^K R_{\nu_k}\left(x_k\mid x_{k-1};t_k\right)
@@ -121,6 +121,7 @@ $x$から$x'$へ流れる全体における確率は$\left( R(x'\mid x;t)P(x,t)-
   \times&D^{\nu_{k'}}_{x_{k'},x_{k'-1}}R_{\nu_{k'}}\left(x_{k'}\mid x_{k'-1};t\right)\\
   =&\sum_{x}P(x,t)\sum_{\nu,x'(\neq x)}D^{\nu}_{x',x}R_{\nu}\left(x'\mid x;t\right)\\
   =&\sum_{\nu,x'\neq x}R_{\nu}\left(x'\mid x;t\right)P(x,t)D^{\nu}_{x',x}
+  \label{eq:path_integral_JD}
 \end{align}
 この式の計算に関して、上から2行目から3,4行目は定義を代入し、3,4行目から5,6行目は$t_{k'}$によるデルタ関数の積分を行って$t_k$と$t$が入れ替え、5,6行目から7,8,9,10行目は定数である$t$を用いて積分区間を分け、7,8,9,10行目から11,12行目では9,10行目が$0$から$\tau$の積分経路を$t$から$\tau$までで切り取った経路について$1$を積分しているので初期状態である$x_k$がどんな値を取っても$1$となるため9,10行目に相当する部分が消えている。13,14,15行目から16行目は13,14行目が時刻$t$において状態$x_{k'-1}$を取るような確率であるためこのような結果となる。\\
 これは確かに文献に書いてあった通りの表式である。この$J_D(t)$に関して「流れ」の物理量の具体例を見てみる。
@@ -132,7 +133,7 @@ $x$から$x'$へ流れる全体における確率は$\left( R(x'\mid x;t)P(x,t)-
   J_D(t)=&\sum_{\nu,x'\neq x}R_{\nu}\left(x'\mid x;t\right)P(x,t)D^{\nu}_{x',x}\\
   =&\sum_\nu\left( R_{\nu}\left(x'_0\mid x_0;t\right)P(x_0,t)-R_{\nu}\left(x_0\mid x'_0;t\right)P(x'_0,t) \right)
 \end{align}
-これは、$x_0$から$x'_0$への確率の流れを表している。\\
+これは、$x_0$から$x'_0$への確率流を表している。\\
 2つ目\\
 状態$x$に対して定義されるある物理量$A_x$に対して,$D^\nu_{x',x}=A_{x'}-A_x$と定義すると反対称性を満たす。
 このとき、$J_D(t)$は次のように表される。
@@ -159,5 +160,35 @@ $x$から$x'$へ流れる全体における確率は$\left( R(x'\mid x;t)P(x,t)-
 \begin{align}
   \sigma\ge 2\frac{(\tau J_D(\tau)-v\pdv{v}\ev*{\hat{\mathcal{J}}_D})^2}{\ev*{\Delta\hat{\mathcal{J}}_D^2}}
 \end{align}
+短時間の$\tau\to 0$の場合について考える
+\begin{align}
+  \ev*{\Delta\hat{\mathcal{J}}_D^2}=&\ev*{\hat{\mathcal{J}}_D^2}-\ev*{\hat{\mathcal{J}}_D}^2\\
+  =&\ev*{\hat{\mathcal{J}}_D^2}-\tau^2\ev*{\hat{\dot{\mathcal{J}}}_D}^2+\order{\tau^3}\\
+  =&\tau\ev{\dv{(\hat{\mathcal{J}}_D^2)}{t}}-\tau^2\ev*{\hat{\dot{\mathcal{J}}}_D}^2+\order{\tau^3}\\
+\end{align}
+$\ev{\dv{(\hat{\mathcal{J}}_D^2)}{t}}$の値を経路積分を用いて計算してみる。\\
+\begin{align}
+  \hat{\mathcal{J}}_D^2[\bm{x}_\tau,\bm{\lambda}_\tau](t)=&\sum_{\lbrace k_1\mid t_{k_1}\le t\rbrace} D^{\nu_{k_1}}_{x_{k_1},x_{k_1-1}}\sum_{\lbrace k_2\mid t_{k_2}\le t\rbrace} D^{\nu_{k_2}}_{x_{k_2},x_{k_2-1}}\\
+  =&\sum_{\lbrace k_1\mid t_{k_1}\le t\rbrace} \sum_{\lbrace k_2\mid t_{k_2}\le t\rbrace} D^{\nu_{k_1}}_{x_{k_1},x_{k_1-1}} D^{\nu_{k_2}}_{x_{k_2},x_{k_2-1}}\\
+\end{align}
+これを用いて、
+\begin{align}
+  \dv{\hat{\mathcal{J}}_D^2[\bm{x}_\tau,\bm{\lambda}_\tau](t)}{t}
+  =&\sum_{k'=1}^{K}\delta(t-t_{k'})\left(\sum_{k_1=1}^{k'} \sum_{k_2=1}^{k'} D^{\nu_{k_1}}_{x_{k_1},x_{k_1-1}} D^{\nu_{k_2}}_{x_{k_2},x_{k_2-1}}-\sum_{k_1=1}^{k'-1} \sum_{k_2=1}^{k'-1} D^{\nu_{k_1}}_{x_{k_1},x_{k_1-1}} D^{\nu_{k_2}}_{x_{k_2},x_{k_2-1}}\right)\\
+  =&\sum_{k'=1}^{K}\delta(t-t_{k'})\left(2D^{\nu_{k'}}_{x_{k'},x_{k'-1}}\sum_{k_1=1}^{k'-1}D^{\nu_{k_1}}_{x_{k_1},x_{k_1-1}}+(D^{\nu_{k'}}_{x_{k'},x_{k'-1}})^2\right)
+\end{align}
+これを用いて、経路積分を行うと
+\begin{align}
+  \ev{\dv{\hat{\mathcal{J}}_D^2(t)}{t}}=&\int \mathcal{D}\bm{x}_\tau \dv{\hat{\mathcal{J}}_D^2[\bm{x}_\tau,\bm{\lambda}_\tau](t)}{t}P[\bm{x}_\tau|\bm{\lambda}_\tau]\\
+  =&\sum_{K=0}^{\infty}\sum_{\lbrace x_k\rbrace_{k=0}^K}\sum_{\lbrace\nu_k\rbrace_{k=1}^K}\int_{0<t_1<\cdots<t_K<\tau}\dd{t_1}\cdots \dd{t_K}\sum_{k'=1}^{K}\delta(t-t_{k'})\left(2D^{\nu_{k'}}_{x_{k'},x_{k'-1}}\sum_{k_1=1}^{k'-1}D^{\nu_{k_1}}_{x_{k_1},x_{k_1-1}}+(D^{\nu_{k'}}_{x_{k'},x_{k'-1}})^2\right)\\
+  \times&P(x_0,0)\exp\left(-\int_0^\tau dt\gamma\left(x(t),t\right)\right)\prod_{k=1}^K R_{\nu_k}\left(x_k\mid x_{k-1};t_k\right)\\
+  =&\sum_{K=0}^{\infty}\sum_{\lbrace x_k\rbrace_{k=0}^K}\sum_{\lbrace\nu_k\rbrace_{k=1}^K}\int_{0<t_1<\cdots<t_K<\tau}\dd{t_1}\cdots \dd{t_K}\sum_{k'=1}^{K}\delta(t-t_{k'})2D^{\nu_{k'}}_{x_{k'},x_{k'-1}}\\
+  \times&\sum_{k_1=1}^{k'-1}D^{\nu_{k_1}}_{x_{k_1},x_{k_1-1}}P(x_0,0)\exp\left(-\int_0^\tau dt\gamma\left(x(t),t\right)\right)\prod_{k=1}^K R_{\nu_k}\left(x_k\mid x_{k-1};t_k\right)\\
+  +&\sum_{K=0}^{\infty}\sum_{\lbrace x_k\rbrace_{k=0}^K}\sum_{\lbrace\nu_k\rbrace_{k=1}^K}\int_{0<t_1<\cdots<t_K<\tau}\dd{t_1}\cdots \dd{t_K}\sum_{k'=1}^{K}\delta(t-t_{k'})(D^{\nu_{k'}}_{x_{k'},x_{k'-1}})^2\\
+  \times&P(x_0,0)\exp\left(-\int_0^\tau dt\gamma\left(x(t),t\right)\right)\prod_{k=1}^K R_{\nu_k}\left(x_k\mid x_{k-1};t_k\right)\\
+  \overset{?}{=}&\sum_{\nu,x'\neq x}R_{\nu}\left(x'\mid x;t\right)P(x,t)(D^{\nu}_{x',x})^2+\order{t}
+\end{align}
+1行目から2,3行目は定義を代入し、4,5,6,7行目から8行目は6,7行目は\eqref{eq:path_integral_JD}式と同様に計算して8行目の第1項となり、4,5行目についてはわからないが、恐らく8行目第2項になるだろうと考えている。\\
+
 
 \end{document}
