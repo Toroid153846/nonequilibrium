@@ -81,28 +81,28 @@
 \begin{align}
   \gamma(x,t)=\sum_{\nu,x'(\neq x)}R_\nu(x'\mid x;t)
 \end{align}\\
-\subsubsection{確率と経路積分の定義}
+\subsubsection{経路確率と経路積分の導出}
 まず経路積分の定義から(経路積分の定義はゆらぐ系の熱力学 齊藤 圭司から)\\
 \begin{align}
-  \int \mathcal{D}\bm{x}_\tau=\sum_{K=0}^{\infty}\sum_{\lbrace x_k\rbrace_{k=0}^K}\sum_{\lbrace\nu_k\rbrace_{k=1}^K}\int_{0<t_1<\cdots<t_K<\tau}\dd{t_1}\cdots \dd{t_K}\\
+  \sum_{K=0}^{\infty}\sum_{\lbrace x_k\rbrace_{k=0}^K}\sum_{\lbrace\nu_k\rbrace_{k=1}^K}\int_{0<t_1<\cdots<t_K<\tau}\\
 \end{align}
-この経路積分は系の設定において考えられる全ての経路を考慮していることは確かめられる。\\
+なお、条件$x_{k-1}\neq x_k$は満たす。この経路積分は系の設定において考えられる全ての経路を考慮していることは確かめられる。\\
 経路の確率を導出する。最初の状態において$x_0$にある確率は$P(x_0,0)$である。また、時間$t_{k}$から$t_{k+1}$において一定値$x_k$を取る確率は、エスケープレート$\gamma(x,t)$を用いれば時間$t$から$t+\Delta{t}$において状態$x$のままである確率は$1-\gamma(x,t)\Delta{t}$
 \begin{align}
   \prod_{t=t_k}^{t_{k+1}}(1-\gamma(x_k,t)\Delta{t})=&\prod_{t=t_k}^{t_{k+1}}\exp\left(-\gamma(x_k,t)\Delta{t}\right)\\
   =&\exp\left(-\int_{t_k}^{t_{k+1}}\gamma(x_k,t)\dd{t}\right)\\
 \end{align}
-であり、時間$t_k$において状態$x_{k-1}$から$x_k$に遷移する確率は$R_{\nu_k}(x_k|x_{k-1};t_k)\dd{t}$である。$\dd{t}$の部分は元の経路積分にあるので(ただ本当は規格化係数が必要なのかもしれない)\\
+であり、時間$t_k$において状態$x_{k-1}$から$x_k$に遷移する確率は$R_{\nu_k}(x_k|x_{k-1};t_k)\dd{t}$である。(ただ本当は規格化係数が必要なのかもしれない)\\
 これらをすべて掛けて計算すると
 \begin{align}
-  P[\bm{x}_\tau,\bm{\lambda}_\tau]
-  =&P(x_0,0)\prod_{k=1}^K \left( \exp\left(-\int_{t_k}^{t_{k+1}}\gamma(x_k,t')\dd{t'}\right)R_{\nu_k}(x_k|x_{k-1};t_k) \right)\exp\left(-\int_{t_K}^{\tau}\gamma(x_k,t')\dd{t'}\right) \\
-  =&P(x_0,0)\exp\left(-\int_0^\tau \dd{t'}\gamma\left(x(t'),t'\right)\right)\prod_{k=1}^K R_{\nu_k}\left(x_k\mid x_{k-1};t_k\right)
+  P[\bm{x}_\tau\mid\bm{\lambda}_\tau]
+  =&P(x_0,0)\prod_{k=1}^K \left( \exp\left(-\int_{t_k}^{t_{k+1}}\gamma(x_k,t')\dd{t'}\right)R_{\nu_k}(x_k|x_{k-1};t_k) \dd{t_k}\right)\exp\left(-\int_{t_K}^{\tau}\gamma(x_k,t')\dd{t'}\right) \\
+  =&P(x_0,0)\exp\left(-\int_0^\tau \dd{t'}\gamma\left(x(t'),t'\right)\right)\prod_{k=1}^K \left(R_{\nu_k}\left(x_k\mid x_{k-1};t_k\right)\dd{t_k}\right)
 \end{align}
 このように経路の確率が求まる。\\
 そのため、経路で定義される物理量$A[\bm{x}_\tau,\bm{\lambda}_\tau]$の期待値$\ev{A}$は次のように表される。
 \begin{align}
-  \ev{A}=&\int \mathcal{D}\bm{x}_\tau A[\bm{x}_\tau,\bm{\lambda}_\tau]P[\bm{x}_\tau,\bm{\lambda}_\tau]\\
+  \ev{A}=&\int \mathcal{D}\bm{x}_\tau A[\bm{x}_\tau,\bm{\lambda}_\tau]P[\bm{x}_\tau\mid\bm{\lambda}_\tau]\\
   =&\sum_{K=0}^{\infty}\sum_{\lbrace x_k\rbrace_{k=0}^K}\sum_{\lbrace\nu_k\rbrace_{k=1}^K}\int_{0<t_1<\cdots<t_K<\tau}\dd{t_1}\cdots \dd{t_K}A[\bm{x}_\tau,\bm{\lambda}_\tau]\\
   &\times P(x_0,0)\exp\left(-\int_0^\tau \dd{t'}\gamma\left(x(t'),t'\right)\right)\prod_{k=1}^K R_{\nu_k}\left(x_k\mid x_{k-1};t_k\right)\\
 \end{align}
@@ -113,9 +113,9 @@
   =&1
 \end{align}
 が成り立つのは確率の規格化条件からわかる。
-\subsection{「流れ」の物理量}
+\subsection{「流れ」を表す物理量}
 \subsubsection{定義と関連した物理量}
-2つの状態$x$と$x'$と熱浴$\nu$において定義される「流れ」の物理量$D^\nu_{x',x}$について\\
+2つの状態$x$と$x'$と熱浴$\nu$において定義される「流れ」を表す物理量$D^\nu_{x',x}$について\\
 \begin{align}
   D^\nu_{x',x}=-D^\nu_{x,x'}
 \end{align}
@@ -157,7 +157,7 @@
   \label{eq:path_integral_JD}
 \end{align}
 この式の計算に関して、上から2行目から3,4行目は定義を代入し、3,4行目から5,6行目は$t_{k'}$によるデルタ関数の積分を行って$t_k$と$t$が入れ替え、5,6行目から7,8,9,10行目は定数である$t$を用いて積分区間を分け、7,8,9,10行目から11,12行目では9,10行目が$0$から$\tau$の積分経路を$t$から$\tau$までで切り取った経路について$1$を積分しているので初期状態である$x_k$がどんな値を取っても$1$となるため9,10行目に相当する部分が消えている。13,14,15行目から16行目は13,14行目が時刻$t$において状態$x_{k'-1}$を取るような確率であるためこのような結果となる。\\
-これは確かに文献に書いてあった通りの表式である。この$J_D(t)$に関して「流れ」の物理量の具体例を見てみる。
+これは確かに文献に書いてあった通りの表式である。この$J_D(t)$に関して「流れ」を表す物理量の具体例を見てみる。
 \subsubsection{具体例}
 1つ目\\
 特定の2つの状態$x_0,x'_0(x_0\neq x'_0)$として、$D^{\nu}_{x'_0,x_0}=-D^{\nu}_{x_0,x'_0}=1$であり、他は$D^{\nu}_{x,x'}=0$であるとする。\\

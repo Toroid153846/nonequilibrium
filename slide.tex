@@ -1,0 +1,218 @@
+\documentclass{beamer}
+\usetheme{CambridgeUS}
+\usepackage{luatexja}
+\usepackage{listings}
+\lstset{
+  numbers=left,
+  basicstyle=\ttfamily,
+}
+\usepackage{color}
+\usepackage{amsmath,amssymb}
+\usepackage{bm}
+\usepackage{physics}
+\usepackage{comment}
+\usepackage{autobreak}
+\usepackage{mathtools}
+\usepackage{mathcommand}
+\mathtoolsset{showonlyrefs=true}
+\usepackage{graphicx}
+\usepackage{here}
+\usepackage{tikz}
+\usepackage{hyperref}
+
+\title{非平衡統計力学}
+\author{Toroid153846}
+\institute{TUS 物理学科 B4}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+\begin{frame}
+    {\Large 目次}
+     \tableofcontents
+\end{frame}
+\section{マルコフジャンプ過程}
+\subsection{セットアップ}
+\begin{frame}{系の設定}
+\begin{itemize}
+  \item 着目系と熱浴$\nu=1,2,\dots$
+  \item 時間$0$から$\tau$までの時間発展
+  \item 操作プロトコル
+  \begin{align}
+    \bm{\lambda}_\tau=\{\lambda(t)\}_{t=0}^\tau
+  \end{align}
+  \item 状態の経路
+  \begin{align}
+    \bm{x}_\tau=\{x(t)\}_{t=0}^\tau
+  \end{align}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{経路の定義}
+    時間$t_k$の状態の変化は熱浴$\nu_k$により起こる
+\begin{center}
+\begin{tikzpicture}
+  \draw[->,thick] (0,0) -- (0,5) node[above] {$x$};
+  \draw[->,thick] (0,0) -- (10.5,0) node[right] {$t$};
+  \draw[thick] (3,1) -- (0,1) node[left] {$x_0$};
+  \draw[dashed] (3,4) -- (0,4) node[left] {$x_1$};
+  \draw[thick] (3,4) -- (5,4);
+  \draw[dashed] (5,2) -- (0,2) node[left] {$x_2$};
+  \draw[thick] (5,2) -- (6,2);
+  \draw[dashed] (9,3) -- (0,3) node[left] {$x_K$};
+  \draw[thick] (10,3) -- (9,3);
+  \draw[dashed] (10,3) -- (10,0) node[below] {$\tau$};
+  \draw[dashed] (0,1) -- (0,0) node[below] {$0$};
+  \draw[dashed] (3,4) -- (3,0) node[below] {$t_1$};
+  \draw[dashed] (5,4) -- (5,0) node[below] {$t_2$};
+  \draw[dashed] (6,0) -- (7,0) node[below] {$\cdots$};
+  \draw[dashed] (9,5) -- (9,0) node[below] {$t_K$};
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+\begin{frame}{物理量の定義}
+    \begin{itemize}
+        \item 確率分布
+        \begin{align}
+            P(x,t)
+        \end{align}
+        \item 遷移確率密度
+        \begin{align}
+            R_\nu(x'|x;t)
+        \end{align}
+        \item 確率流
+        \begin{align}
+            J_\nu(x'\mid x;t):=R_\nu(x'\mid x;t)P(x,t)-R_\nu(x\mid x';t)P(x',t)
+        \end{align}
+        \item エスケープレート
+        \begin{align}
+            \gamma(x,t):=\sum_{\nu,x'(\neq x)}R_\nu(x'\mid x;t)
+        \end{align}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{経路積分の定義}
+    \begin{tikzpicture}
+        %\draw (8,4) grid (8,4);
+        \draw[->,thick] (0,0) -- (0,4) node[above] {$x$};
+        \draw[->,thick] (0,0) -- (8.4,0) node[right] {$t$};
+        \draw[thick] (2.4,0.8) -- (0,0.8) node[left]  {$x_0$};
+        \draw[dashed] (2.4,3.2) -- (0,3.2) node[left]  {$x_1$};
+        \draw[thick] (2.4,3.2) -- (4,3.2);
+        \draw[dashed] (4,1.6) -- (0,1.6) node[left]  {$x_2$};
+        \draw[thick] (4,1.6) -- (4.8,1.6);
+        \draw[dashed] (7.2,2.4) -- (0,2.4) node[left]  {$x_K$};
+        \draw[thick] (8,2.4) -- (7.2,2.4);
+        \draw[dashed] (8,2.4) -- (8,0)   node[below] {$\tau$};
+        \draw[dashed] (0,0.8) -- (0,0)   node[below] {$0$};
+        \draw[dashed] (2.4,3.2) -- (2.4,0) node[below] {$t_1$};
+        \draw[dashed] (4,3.2) -- (4,0)   node[below] {$t_2$};
+        \draw[dashed] (4.8,0) -- (5.6,0) node[below] {$\cdots$};
+        \draw[dashed] (7.2,4) -- (7.2,0) node[below] {$t_K$};
+      \end{tikzpicture}      
+\begin{align*}
+    \sum_{K=0}^{\infty}\sum_{\lbrace x_k\rbrace_{k=0}^K}\sum_{\lbrace\nu_k\rbrace_{k=1}^K}\int_{0<t_1<\cdots<t_K<\tau}\\
+\end{align*}
+\end{frame}
+\begin{frame}[fragile]{経路確率の定義}
+    経路確率
+    \begin{align}
+        P[\bm{x}_\tau\mid\bm{\lambda}_\tau]
+        =&P(x_0,0)\prod_{k=1}^K \left( \exp\left(-\int_{t_k}^{t_{k+1}}\gamma(x_k,t')\dd{t'}\right)R_{\nu_k}(x_k|x_{k-1};t_k) \dd{t_k}\right)\\
+        &\times\exp\left(-\int_{t_K}^{\tau}\gamma(x_k,t')\dd{t'}\right) \\
+        =&P(x_0,0)\exp\left(-\int_0^\tau \dd{t'}\gamma\left(x(t'),t'\right)\right)\prod_{k=1}^K \left(R_{\nu_k}\left(x_k\mid x_{k-1};t_k\right)\dd{t_k}\right)
+    \end{align}
+\end{frame}
+
+\begin{frame}[fragile]{期待値と規格化}
+経路に対応する物理量$A$の期待値
+\begin{align*}
+    \ev{A}=&\sum_{K=0}^{\infty}\sum_{\lbrace x_k\rbrace_{k=0}^K}\sum_{\lbrace\nu_k\rbrace_{k=1}^K}\int_{0<t_1<\cdots<t_K<\tau}A[\bm{x}_\tau,\bm{\lambda}_\tau]\\
+    &\times P(x_0,0)\exp\left(-\int_0^\tau \dd{t'}\gamma\left(x(t'),t'\right)\right)\prod_{k=1}^K \left(R_{\nu_k}\left(x_k\mid x_{k-1};t_k\right)\dd{t_k}\right)
+\end{align*}
+規格化条件
+\begin{align}
+    \ev{1}=&1
+\end{align}
+\end{frame}
+\subsection{「流れ」を表す物理量}
+\begin{frame}{定義と経路の関数}
+    \begin{block}{「流れ」を表す物理量$D$の定義}
+      熱浴 $\nu$ と2つの状態 $x,x'$ に対応する物理量 $D^\nu_{x',x}$ であり，以下の反対称性を満たす。
+      \[
+        D^\nu_{x',x} = -\,D^\nu_{x,x'}.
+      \]
+    \end{block}
+    物理量$D$による経路の関数
+    \begin{align}
+      \hat{\mathcal{J}}_D[\bm{x}_\tau,\bm{\lambda}_\tau]:=\sum^K_{k=1}D^{\nu_k}_{x_k,x_{k-1}}\\
+    \end{align}
+\end{frame}
+\begin{frame}[fragile]{関連する経路の関数}
+    時間$t$に依存した経路の関数
+    \begin{align}
+        \hat{\mathcal{J}}_D[\bm{x}_\tau,\bm{\lambda}_\tau](t)=\sum_{\lbrace k|t_k \le t\rbrace}D^{\nu_k}_{x_k,x_{k-1}}\\
+    \end{align}
+    経路の関数の時間微分
+    \begin{align}
+        \hat{\dot{\mathcal{J}}}_D[\bm{x}_\tau,\bm{\lambda}_\tau](t)=\sum_{k=1}^K D^{\nu_k}_{x_{k},x_{k-1}}\delta(t-t_k)\label{eq:dotJ}
+    \end{align}
+\end{frame}
+\begin{frame}[fragile]{期待値}
+    経路の関数の時間微分の期待値$J_D(t)$
+    \begin{align}
+        J_D(t)=&\ev*{\hat{\dot{\mathcal{J}}}_D(t)}\\
+        =&\sum_{K=0}^{\infty}\sum_{\lbrace x_k\rbrace_{k=0}^K}\sum_{\lbrace\nu_k\rbrace_{k=1}^K}\int_{0<t_1<\cdots<t_K<\tau}\hat{\dot{\mathcal{J}}}_D[\bm{x}_\tau,\bm{\lambda}_\tau](t)\\
+        &\times P(x_0,0)\exp\left(-\int_0^\tau \dd{t'}\gamma\left(x(t'),t'\right)\right)\prod_{k=1}^K \left(R_{\nu_k}\left(x_k\mid x_{k-1};t_k\right)\dd{t_k}\right)\\
+        =&\sum_{\nu,x'\neq x}R_{\nu}\left(x'\mid x;t\right)P(x,t)D^{\nu}_{x',x}\\
+    \end{align}
+\end{frame}
+\begin{frame}[fragile]{「流れ」を表す物理量の具体例}
+    ある2つの状態$x_0,x'_0$
+    \begin{align}
+        D^{\nu}_{x,x'}=&
+        \begin{cases}
+            1 & ((x,x')=(x_0,x'_0))\\
+            -1 & ((x,x')=(x'_0,x_0))\\
+            0 & (\text{else})
+        \end{cases}\\
+    \end{align}
+    として
+    \begin{align}
+      J_D(t)=&\sum_{\nu,x'\neq x}R_{\nu}\left(x'\mid x;t\right)P(x,t)D^{\nu}_{x',x}\\
+      =&\sum_\nu\left( R_{\nu}\left(x'_0\mid x_0;t\right)P(x_0,t)-R_{\nu}\left(x_0\mid x'_0;t\right)P(x'_0,t) \right)\\
+      =&\sum_\nu J_\nu(x'_0\mid x_0;t)\\
+    \end{align}
+\end{frame}
+\begin{frame}[fragile]{「流れ」を表す物理量の具体例}
+    状態$x$に対応する物理量$A_x$
+    \begin{align}
+        D^\nu_{x',x}=A_{x'}-A_{x}
+    \end{align}
+    として
+    \begin{align}
+      J_D(t)=&\sum_{\nu,x'\neq x}R_{\nu}\left(x'\mid x;t\right)P(x,t)\left( A_{x'}-A_x \right) \\
+      =&\sum_{\nu,x\neq x'}J_\nu(x'_0\mid x_0;t)A_{x'}\\
+      =&\dv{A(t)}{t}
+    \end{align}
+\end{frame}
+\subsection{熱力学不定性関係}
+\begin{frame}[fragile]{熱力学不定性関係の主張}
+    確率分布$P(x,t)=P(x)$,遷移確率密度$R(x',x;t)=R(x',x)$の場合
+    \begin{align}
+        \sigma\ge 2\frac{\ev*{\hat{\mathcal{J}}_D}^2}{\ev*{\Delta\hat{\mathcal{J}}_D^2}}
+    \end{align}
+    一般の場合($\lambda=\lambda(vt)$)
+    \begin{align}
+        \sigma\ge 2\frac{(\tau J_D(\tau)-v\pdv{v}\ev*{\hat{\mathcal{J}}_D})^2}{\ev*{\Delta\hat{\mathcal{J}}_D^2}}
+        \label{eq:thermal_uncertain_general}
+      \end{align}
+\end{frame}
+
+
+
+\end{document}
